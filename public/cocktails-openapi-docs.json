@@ -18,7 +18,8 @@
   },
   "servers": [
     {
-      "url": "https://cocktails.solvro.pl/api/v1"
+      "url": "https://cocktails.solvro.pl/api/v1",
+      "url2": "https://lis.rocks/api/v1"
     }
   ],
   "tags": [

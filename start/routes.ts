@@ -25,6 +25,6 @@ router
     router.get('cocktails/categories', [CocktailCategoriesController])
     router.resource('cocktails', CocktailsController).only(['show', 'index'])
   })
-  .prefix('api/v1')
+  .prefix('v1')
 
 router.on('*').redirect('/')

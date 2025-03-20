@@ -1,33 +1,25 @@
 services:
-  postgres:
-    container_name: postgres
-    image: postgres:13
-    volumes:
-      - postgres_volume:/var/lib/postgresql/data
+  db:
+    image: postgres:15-alpine
+    container_name: cocktail_db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: cocktails
-    ports:
-      - 5432:5432
-
-  adonis_app:
-    container_name: adonis_app
+      POSTGRES_USER: cocktails
+      POSTGRES_PASSWORD: cocktails
+    volumes:
+      - db-data:/var/lib/postgresql/data
     restart: always
+
+  app:
+    build: .
+    container_name: cocktail_api
     depends_on:
-      - postgres
-    build:
-      context: .
+      - db
     ports:
-      - ${PORT}:${PORT}
-      - 9229:9229
+      - "3333:3333"
     env_file:
       - .env
-    environment:
-      - PG_HOST=postgres
-      - DB_HOST=postgres
-    volumes:
-      - ./:/app
-    command: node ./build/bin/server.js
+    restart: always
+
 volumes:
-  postgres_volume:
+  db-data:
