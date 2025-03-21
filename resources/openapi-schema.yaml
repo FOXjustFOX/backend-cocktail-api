@@ -14,7 +14,7 @@ externalDocs:
   description: Find out more about Solvro
   url: https://solvro.pwr.edu.pl
 servers:
-  - url: https://cocktails.solvro.pl/api/v1
+  - url: https://api.lis.rocks/api/v1
 tags:
   - name: Ingredients
     description: Everything about cocktail ingredients
