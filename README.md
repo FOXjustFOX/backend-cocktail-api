@@ -97,12 +97,4 @@ jobs:
             docker-compose up -d --build
 ```
 
-## Maintenance Notes
-
-1. **Adding New Cocktails**:
-
-   - Update the JSON files in `database/data/` directory
-   - Push changes to GitHub
-   - The workflow will automatically deploy
-
 *Last updated: March 21, 2025*
