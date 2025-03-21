@@ -1,5 +1,5 @@
 # Use an official Node.js image (arm64 compatible for RPi 4)
-FROM node:20-alpine
+FROM node:22-alpine
 
 # Create and switch to app directory
 WORKDIR /app
@@ -16,10 +16,9 @@ COPY . .
 # Build the Adonis project
 RUN npm run build
 
-# Expose port 3333 (the default for Adonis)
+# Expose port 3333 
 EXPOSE 3333
 
 # Start the app
-#CMD ["node", "build/server.js"]
 
 CMD ["npm", "start"]
