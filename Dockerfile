@@ -21,6 +21,3 @@ EXPOSE 3333
 
 # Start the app
 CMD ["npm", "start"]
-
-# Seed the database with new cocktails
-RUN node ace db:seed
