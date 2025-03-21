@@ -4096,41 +4096,5 @@
                 "cocktail_id": 11993
             }
         ]
-    },
-    {
-      "id": 21000,
-      "name": "Mojito-igor-test",
-      "category": "Cocktail",
-      "glass": "Highball glass",
-      "instructions": "Muddle mint leaves with sugar and lime juice. Add a splash of soda water and fill the glass with cracked ice. Pour the rum and top with soda water. Garnish and serve with straw.",
-      "imageUrl": "https://cocktails.solvro.pl/images/ingredients/mojito.png",
-      "alcoholic": true,
-      "ingredients": [
-          {
-              "measure": "Juice of 1 ",
-              "ingredient_id": 312,
-              "cocktail_id": 21000
-          },
-          {
-              "measure": "2-4 ",
-              "ingredient_id": 337,
-              "cocktail_id": 21000
-          },
-          {
-              "measure": "2 tsp ",
-              "ingredient_id": 476,
-              "cocktail_id": 21000
-          },
-          {
-              "measure": "2-3 oz ",
-              "ingredient_id": 617,
-              "cocktail_id": 21000
-          },
-          {
-              "measure": null,
-              "ingredient_id": 618,
-              "cocktail_id": 21000
-          }
-      ]
-  }
+    }
 ]

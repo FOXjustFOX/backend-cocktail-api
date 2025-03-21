@@ -27,7 +27,4 @@ jobs:
             git pull origin main
             docker-compose down
             docker-compose up -d --build
-            # Wait for the app and database to be fully up
-            sleep 30
-            # Run database seeding inside the container
-            docker-compose exec -T app node ace db:seed
+            
