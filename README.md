@@ -1,106 +1,108 @@
-## Backend-cocktail-api
+# Cocktail API Backend Setup Guide
 
-![Banner](./banner.png)
-[![Tests](https://github.com/Solvro/backend-cocktail-api/actions/workflows/test.yml/badge.svg)](https://github.com/Solvro/backend-cocktail-api/actions/workflows/test.yml)
-![Static Badge](https://img.shields.io/badge/version-1.1.0-80B3FF)
-![Author](https://img.shields.io/badge/author-Dawid%20Linek-%23274276)
+### The api is avaliable at: [Cocktail API](https://api.lis.rocks)
 
+## System Architecture
 
-This project is inspired by thecocktaildb API and is used for recruitment tasks at KN Solvro. It provides a public REST API for querying cocktail recipes.
+- **Backend**: Node.js application using Adonis.js framework
+- **Database**: PostgreSQL
+- **Deployment**: Docker containers on Raspberry Pi
+- **CI/CD**: GitHub Actions workflow for automated deployment
 
-### Data Structure
+## Initial Setup
 
-We store cocktails and their ingredients. Each cocktail can have several ingredients with specified measures.
+1. Clone the repository:
 
-![Database Schema](./diagram.png)
-
-We have 3 enums stored in app/enums directory:
-- CocktailCategory
-- CocktailGlass
-- IngredientType
-
-### Technologies
-
-This API is built with Node.js using the [Adonis.js framework](https://adonisjs.com/). PostgreSQL is used as the database of choice.
-
-### Documentation
-
-API documentation using Swagger can be found [here](https://cocktails.solvro.pl) and on the main page of the app.
-
-### Installation
-
-Install the main app dependencies:
+   ```bash
+   git clone https://github.com/foxjustfox/backend-cocktail-api.git
+   cd backend-cocktail-api
    ```
+2. Install dependencies:
+
+   ```bash
    npm install
    ```
+3. Configure environment variables:
 
-Rename `.example.env` to `.env` and configure your environment variables there. At this point you can regenerace app key with `node ace generate:key`.
-
-Migrate the database schema:
+   ```bash
+   cp .env.example .env
    ```
+
+   I have edited the `.env` file with your database credentials and other configurations.
+4. Run migrations:
+
+   ```bash
    node ace migration:run
    ```
+5. Seed the database:
 
-Seed the database with initial data:
-   ```
+   ```bash
    node ace db:seed
    ```
 
-### Development
+## Docker Configuration
 
-To run the app in development mode:
+The application is containerized using Docker with the following configuration:
+
+1. **Dockerfile**:
+
+   - Uses Node.js Alpine image
+   - Copies application files
+   - Builds the Adonis.js application
+   - Exposes port 3333
+   - Starts the application with `npm start`
+
+## Deployment Configuration
+
+The deployment is automated through GitHub Actions:
+
+1. **Workflow Trigger**:
+
+   - Pushed to main branch
+   - Manual workflow dispatch
+2. **Deployment Process**:
+
+   - SSH into Raspberry Pi
+   - Pull latest code from GitHub
+   - Stop existing containers
+   - Build and start new containers
+
+## Complete Deployment Workflow
+
+The final deployment workflow (`main.yml`):
+
+```yaml
+name: CI and Deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Raspberry Pi via SSH
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.RPI_HOST }}
+          username: ${{ secrets.RPI_USER }}
+          password: ${{ secrets.RPI_SECRET }}
+          script: |
+            cd /home/****/******/server/apps/backend-cocktail-api
+            git pull origin main
+            docker-compose down
+            docker-compose up -d --build
 ```
-node ace serve
-```
 
-The API will be accessible at `http://localhost:3333`.
+## Maintenance Notes
 
-You can watch live changes by adding --watch or --hmr flag.
+1. **Adding New Cocktails**:
 
-### Production
+   - Update the JSON files in `database/data/` directory
+   - Push changes to GitHub
+   - The workflow will automatically deploy
 
-Compile and build the app:
-   ```
-   node ace build
-   ```
-
-The output files will be located in the `build` directory. Expose the `build/public` folder and configure `server.js` as the entry point.
-
-### Testing
-
-Basic tests are be implemented. To run them:
-```
-node ace test
-```
-
-### Scraping
-
-Custom commands were created to gather data from thecocktaildb.
-
-#### Ingredient Synchronization
-
-To synchronize (scrape) ingredients:
-Synchronize all ingredients:
-  ```
-  node ace synchronize:ingredients
-  ```
-Synchronize one ingredient by ID (e.g., 512):
-  ```
-  node ace synchronize:ingredients 512
-  ```
-
-#### Cocktail Synchronization
-
-To synchronize (scrape) cocktails:
-Ensure ingredients are synchronized first.
-Synchronize all cocktails:
-  ```
-  node ace synchronize:cocktails
-  ```
-Synchronize one cocktail by ID (e.g., 11004):
-  ```
-  node ace synchronize:cocktails 11004
-  ```
-
-### Contributing
-Feel free to create an issue or pull request, especially if you have an interesting new cocktail to add.
+*Last updated: March 21, 2025*
