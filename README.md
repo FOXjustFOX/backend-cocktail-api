@@ -1,6 +1,6 @@
 # Cocktail API Backend Setup Guide
 
-### The api is avaliable at: [Cocktail API](https://api.lis.rocks)
+### The api is avaliable at: [api.lis.rocks](https://api.lis.rocks)
 
 ## System Architecture
 
